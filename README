@@ -1,13 +1,12 @@
 Giggly
 ======
 
-Introduction goes here.
+Giggly is an attempt to create a rails plugin for accessing Gigya Socialize (http://www.gigya.com/site/partners/wfsocapi.aspx) via idiomatic ruby.  
 
 
 Example
 =======
 
-Example goes here.
+For examples of usage, visit http://giggly.inheretic.com.
 
-
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Copyright (c) 2009 Ben Vandgrift, released under the MIT license
