@@ -1,6 +1,6 @@
 module Giggly
   module Rest
-    class Connection
+    class Request
       
       def initialize(conn_params)
         
