@@ -1,4 +1,4 @@
-reqiure 'digest'
+require 'digest'
 
 module Giggly
   module Rest
@@ -34,3 +34,8 @@ module Giggly
 
   end
 end
+
+directory = File.expand_path(File.dirname(__FILE__))
+
+require File.join(directory, 'rest', 'request')
+require File.join(directory, 'rest', 'socialize')
