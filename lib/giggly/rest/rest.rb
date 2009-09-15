@@ -2,7 +2,7 @@ reqiure 'digest'
 
 module Giggly
   module Rest
-    
+      
     class SocializeError < StandardError
       attr_reader :error_code, :error_description
 
@@ -20,6 +20,7 @@ module Giggly
     class InternalServerError < SocializeError; end
     class NotImplemented < SocializeError; end
     
+    #token is the secret key, value is the nonce.
     def self.signature(token, value)
       base_string = "#{token}_#{value}"
       binary_key = Base64.decode64(Giggly.config["APIKey"])
@@ -30,6 +31,6 @@ module Giggly
     def self.validate_signature(token, value, sig)
       sig == signature(token, value) 
     end
-    
+
   end
 end
