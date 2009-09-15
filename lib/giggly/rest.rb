@@ -1,14 +1,16 @@
 require 'digest'
+require 'hmac-sha1'
+require 'base64'
 
 module Giggly
   module Rest
       
     class SocializeError < StandardError
-      attr_reader :error_code, :error_description
+      attr_reader :error_code
 
       def initialize(error_data)
-        @error_code, @error_description = error_data[:error_code], error_data[:description]
-        super
+        @error_code = error_data["errorCode"]
+        super(error_data["errorMessage"])
       end
     end
 
@@ -21,15 +23,15 @@ module Giggly
     class NotImplemented < SocializeError; end
     
     #token is the secret key, value is the nonce.
-    def self.signature(token, value)
+    def self.signature(key, token, value)
       base_string = "#{token}_#{value}"
-      binary_key = Base64.decode64(Giggly.config["APIKey"])
-      unencoded_signature = Digest::SHA1.hexdigest(binary_key, base_string)
+      binary_key = Base64.decode64(key) # this is the giggly api key
+      unencoded_signature = HMAC::SHA1.hexdigest(binary_key, base_string)
       Base64.encode64(unencoded_signature)
     end
 
-    def self.validate_signature(token, value, sig)
-      sig == signature(token, value) 
+    def self.validate_signature(key, token, value, sig)
+      sig == signature(key, token, value) 
     end
 
   end

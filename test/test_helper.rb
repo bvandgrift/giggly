@@ -16,6 +16,9 @@ require dir + 'giggly'
 
 require 'fake_socialize'
 
+puts "Disabling net connections."
+FakeWeb.allow_net_connect = false
+
 class Test::Unit::TestCase
 end
 
