@@ -7,6 +7,7 @@ module Giggly
       
       def initialize(conn_params)
         @api_key, @secret_key, @uid = conn_params[:api_key], conn_params[:secret_key], conn_params[:uid]
+        # should we allow the user to doom themeselves?  probably.
       end
 
       def post(uri, params = {})
