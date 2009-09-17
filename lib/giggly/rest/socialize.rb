@@ -33,15 +33,11 @@ module Giggly
       # * +detailLevel+ 'basic' or 'extended'
       # Returns::
       # * +Array+ of +Giggly::User+ objects
-      # Because a Giggly::User is mainly a hashtable, consult the api at 
-      # http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getFriendsInfo
-      # and http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getUserInfo
-      # for the exact differences
       def friends_info
         response = perform_post(GIGYA_URL + 'getFriendsInfo', params)
         friends = []
         response['friends'].each do |f|
-          friends << Giggly::User.new(f['friend'])
+          friends << Giggly::Friend.new(f['friend'])
         end
         friends
       end
@@ -67,7 +63,7 @@ module Giggly
       # See http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getSessionInfo on decrypting
       def session_info(provider, padding_mode = 'PKCS7')
         # TOOD: possibly decrypt response
-        perform_post GIGYA_URL + 'getSessionInfo', {:provider => provider, :paddingMode => padding_mode}
+        Giggly::SessionInfo perform_post(GIGYA_URL + 'getSessionInfo', {:provider => provider, :paddingMode => padding_mode})
       end
       
       # retrieves user information from gigya, including or excluding providers
