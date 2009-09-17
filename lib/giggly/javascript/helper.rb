@@ -25,9 +25,9 @@ module Gigya
         if object.is_a? String
           "'#{escape_javascript object}'"
         elsif object.is_a? Array
-          '[' + object.collect { |o| javascriptify_variable(o) }.join(',') + ']'
+          '[' + object.collect{ |o| javascriptify_variable(o) }.join(',') + ']'
         elsif object.is_a? Hash
-          '{' + object.to_a.collect { |o| "#{o[0].to_s} : #{javascriptify_variable(o[1])}" }.join(',') + '}'
+          '{' + object.to_a.collect{ |o| "#{o[0].to_s} : #{javascriptify_variable(o[1])}" }.join(',') + '}'
         elsif object.nil?
           'undefined'
         else
