@@ -10,13 +10,11 @@ module Giggly
       # The connection parameter hash requires :api_key, :secret_key, and :uid
       # These are the same parameters that can be passed to the constructor for +Giggly::Rest::Socialize+ 
       # example:
-      #  <tt>
       #    @connection = Giggly::Rest::Request.new(
       #      :api_key    => 'api key provided from Gigya',
-      #      :secret_key => 'api key provided from Gigya',
+      #      :secret_key => 'secret key provided from Gigya',
       #      :user_id    => 'the Gigya User ID',
       #    )
-      #  </tt>
       def initialize(conn_params)
         @api_key, @secret_key, @uid = conn_params[:api_key], conn_params[:secret_key], conn_params[:user_id]
       end
@@ -45,7 +43,7 @@ module Giggly
         end
       
         def raise_errors(data)
-          return if "200" == data["statusCode"] 
+          return if '200' == data["statusCode"]
           case data["statusCode"].to_i
             when 400
               raise Giggly::Rest::BadRequest.new(data)

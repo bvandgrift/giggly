@@ -22,16 +22,17 @@ module Giggly
     class InternalServerError < SocializeError; end
     class NotImplemented < SocializeError; end
     
-    #token is the secret key, value is the nonce.
-    def self.signature(key, token, value)
-      base_string = "#{token}_#{value}"
-      binary_key = Base64.decode64(key) # this is the giggly api key
+    # signs the request as per Gigya's requirements
+    def self.signature(api_key, secret_key, nonce)
+      base_string = "#{secret_key}_#{nonce}"
+      binary_key = Base64.decode64(api_key)
       unencoded_signature = HMAC::SHA1.hexdigest(binary_key, base_string)
       Base64.encode64(unencoded_signature)
     end
 
-    def self.validate_signature(key, token, value, sig)
-      sig == signature(key, token, value) 
+    
+    def self.validate_signature(api_key, secret_key, nonce, sig)
+      sig == signature(api_key, secret_key, nonce) 
     end
 
   end

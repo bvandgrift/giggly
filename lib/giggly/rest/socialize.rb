@@ -18,49 +18,92 @@ module Giggly
       end
 
       # Disconnects the user from the provided network.
-      # If network is empty, user will be disconnected from all networks.
-      # Values for network are facebook, myspace, twitter and yahoo.
+      # Params::
+      # * +network+ array of networks to disconnect from, if emtpy user will be disconnected from all networks
+      # Allowed values for network are facebook, myspace, twitter and yahoo.
       def disconnect(network = nil)
-        perform_post :disconnect, :provider => network
+        perform_post 'disconnect', :provider => (network.join(',') if network)
       end
       
-      # detailLevel	string	This field indicates whether to get basic or extended information about each friend. See the "Friend object" page for details on which fields are included for each detail level.
-      # Allowed values are:
-      # basic - Basic detail level. This is the default.
-      # extended - Extended detail level.
-      #   UIDs  string  A comma separated list of UIDs of friends of the current user to get the information for.
-      # Note: If both friends and UIDs are missing the method will return all the friends of the current user.
-      #   enabledProviders  string  A comma delimited list of provider names to include in the method execution. This parameter gives the possibility to apply this method to only a subset of providers of your choice. If you do not set this parameter, by default, all the providers are enabled (i.e. the method applies to all connected provides). Valid provider names include: facebook, myspace, twitter, yahoo, google, aol.
-      # For example, if you would like the method to apply only to Facebook and Twitter, define: enabledProviders=facebook,twitter.
-      #   disabledProviders string  A comma delimited list of provider names to exclude in the method execution. This parameter gives the possibility to specify provides that you don't want this method to apply to. If you do not set this parameter, by default, no provider is disabled (i.e. the method applies to all connected provides).Valid provider names include: facebook, myspace, twitter, yahoo, google, aol.
-      # For example, if you would like the method to apply to all providers except Google and Twitter, define: disabledProviders=google,twitter.
+      # retrieves the friends of the current user
+      # Params::
+      # * +enabledProviders+ comma +separated+ list of providers to include.  (ONLY) 
+      # * +disabledProviders+ comma separated list of providers to exclude. (NOT)
+      # * +UIDs+ list of users to retrieve.
+      # * +detailLevel+ 'basic' or 'extended'
+      # Returns::
+      # * +Array+ of +Giggly::User+ objects
+      # Because a Giggly::User is mainly a hashtable, consult the api at 
+      # http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getFriendsInfo
+      # and http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getUserInfo
+      # for the exact differences
       def friends_info
-        
+        response = perform_post(GIGYA_URL + 'getFriendsInfo', params)
+        friends = []
+        response['friends'].each do |f|
+          friends << Giggly::User.new(f['friend'])
+        end
+        friends
       end
       
-      
-      def raw_data
-        
+      # get raw data from an individual provider about a user
+      # Params::
+      # * +provider+ the provider to retrieve the raw data from, only facebook and myspace are currently supported
+      # * +fields+ a array of provider specific fields to retrieve
+      # Returns::
+      # * +Hash+ of the raw data
+      def raw_data(provider, fields)
+        perform_post GIGYA_URL + 'getRawData', {:provider => provider, :fields => fields.join(',')}
       end
       
-      def session_info
-        
+      # get the connection info for a session with a direct api provider
+      # this is useful to make calls to a specific provider (not via Socialize)
+      # for functions that are currently unsupported by Gigya Socialize
+      # Params::
+      # * +provider+ the provider to get the connection information for, 
+      # ** possible values are facebook, myspace, twitter, or yahoo
+      # * +padding_mode+ padding mode for the AES algorithm used in encryping some of the response parameters
+      # ** values are PKCS5, PKCS7 or ZEROS PKCS7 will be used as the default
+      # See http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getSessionInfo on decrypting
+      def session_info(provider, padding_mode = 'PKCS7')
+        # TOOD: possibly decrypt response
+        perform_post GIGYA_URL + 'getSessionInfo', {:provider => provider, :paddingMode => padding_mode}
       end
       
-      def user_info
-        
+      # retrieves user information from gigya, including or excluding providers
+      # as indicated.  default usage includes all providers.  returns user.
+      # Params::
+      # * +providers+ an optional hash of arrays the has the keys of 
+      # * +included_providers+ an array of provider strings 
+      # * +excluded_providers+ an array of provider strings 
+      def user_info(providers = {})
+        Giggly::User.new perform_post(GIGYA_URL + 'getUserInfo', provider_hash(providers))
       end
-
+      
+      # arg, this looks to be more difficult because we have to send a custom xml payload
+      # see: http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.publishUserAction
       def publish_user_action
-        
+        perform_post(GIGYA_URL + 'publishUserAction', params)
       end
       
-      def send_notification
-        
+      # Sends a notification to a list of friends
+      # Params::
+      # * +recipients+ a string or array of uids to send the notification to
+      # * +subject+ the subject line of the notification
+      # * +body+ the body of the notification, do not use html, Gigya will autolink urls
+      # this will post to both facebook and twitter
+      def send_notification(recipients, subject, body)
+        recipients = recipients.class.name == 'Array' ? recipients.join(',') : recipients
+        perform_post GIGYA_URL + 'sendNotification', {:recipients => recipients, :subject => subject, :body => body}
       end
       
-      def status=(status)
-        
+      # sets the status of a user for the given providers (or all of them if blank)
+      # Params::
+      # * +providers+ an optional hash of arrays the has the keys of 
+      # * +included_providers+ an array of provider strings 
+      # * +excluded_providers+ an array of provider strings
+      def status=(status, providers = {})
+        perform_post GIGYA_URL + 'setStatus', {:status => status}.merge(provider_hash(providers))
       end
       
       protected
@@ -68,6 +111,13 @@ module Giggly
         def perform_post(action, params = {})
           params.reject! {|k,v| v.nil?}
           @request.post action.to_s, params
+        end
+        
+        def provider_hash(providers)
+          params = {
+            :enabledProviders  => (providers[:included_providers].join(',') if providers[:included_providers]),
+            :disabledProviders => (providers[:included_providers].join(',') if providers[:excluded_providers])
+          }
         end
       
     end
