@@ -4,14 +4,12 @@ module Giggly
       
       GIGYA_URL = "http://socialize.api.gigya.com/socialize."
       
-      # Create a new socialize object by passing in a +Giggly::Rest::Request+ object
-      # or by passing in a hash that will be used to initialize a new +Giggly::Rest::Request+.
+      # Create a new socialize object by passing in a <tt>Giggly::Rest::Socialize</tt> object
+      # or by passing in a hash that will be used to initialize a new <tt>Giggly::Rest::Socialize</tt>.
       # See the rdoc for Request to find details for a new connection hash.
-      # A +Giggly::Rest::Socialize+ is used per user (because the Request object is).
+      # A <tt>Giggly::Rest::Socialize</tt> is used per user (because the Request object is).
       # example:
-      #  <tt>
       #    @socialize = Giggly::Rest::Socialize.new(@connection)
-      #  </tt>
       def initialize(request)
         @request = request and return if request.kind_of?(Giggly::Rest::Request)
         @request = Giggly::Rest::Request.new(request)
@@ -57,9 +55,9 @@ module Giggly
       # for functions that are currently unsupported by Gigya Socialize
       # Params::
       # * +provider+ the provider to get the connection information for, 
-      # ** possible values are facebook, myspace, twitter, or yahoo
+      #   * possible values are facebook, myspace, twitter, or yahoo
       # * +padding_mode+ padding mode for the AES algorithm used in encryping some of the response parameters
-      # ** values are PKCS5, PKCS7 or ZEROS PKCS7 will be used as the default
+      #   * values are PKCS5, PKCS7 or ZEROS PKCS7 will be used as the default
       # See http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getSessionInfo on decrypting
       def session_info(provider, padding_mode = 'PKCS7')
         # TOOD: possibly decrypt response

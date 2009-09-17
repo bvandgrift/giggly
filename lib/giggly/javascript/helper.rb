@@ -6,7 +6,7 @@ module Gigya
       # So that if there is a future api it can be wrapped in a class and include this
       
       def include_gigya_api(service)
-        '<script type="text/javascript" src="http://cdn.gigya.com/JS/gigya.js?services=' + service + '"></script>'
+        '<script type="text/javascript" src="http://cdn.gigya.com/JS/gigya.js?services=' + service.to_s + '"></script>'
       end
       
       def javascript(&block)
@@ -17,7 +17,7 @@ module Gigya
       end
       
       def to_var(name, object, scope_to_window = false)
-        "#{scope_to_window ? '' : 'var '}#{name} = #{javascriptify_object};"
+        "#{scope_to_window ? '' : 'var '}#{name.to_s} = #{javascriptify_object object};"
       end
       
       # borrowed mainly from the ym4r_gm plugin

@@ -23,12 +23,12 @@ module Gigya
       
       # Socialize specific JS methods
       
-      def config_to_js(config_var_name = 'gigya_config')
+      def config_to_js(config_var_name = :gigya_config)
         to_var(config_var_name, to_config)
       end
       
       def include_gigya_socialize
-        include_gigya_api 'socialize'
+        include_gigya_api :socialize
       end
       
     end
