@@ -21,7 +21,8 @@ module Giggly
       # * +detailLevel+ 'basic' or 'extended'
       def friends_info
         response = perform_post(GIGYA_URL + "getFriendInfo", params)
-        response[:Friends]
+        list = []
+        response["friends"].each 
         
       end
       
