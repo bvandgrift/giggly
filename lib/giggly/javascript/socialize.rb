@@ -1,14 +1,14 @@
-module Gigya
+module Giggly
   module Javascript
     class Socialize
-      include Gigya::Javascript::Helper
+      include Giggly::Javascript::Helper
       
       attr_accessor :api_key, :enabled_providers, :disabled_providers, :config
       
       def initialize(config)
         @api_key            = config[:api_key]
-        @enabled_providers  = config[:enabled_providers] || []
-        @disabled_providers = config[:disabled_providers] || []
+        @enabled_providers  = array_to_string(config[:enabled_providers])
+        @disabled_providers = array_to_string(config[:disabled_providers])
         
         @config = to_config
       end
@@ -17,8 +17,8 @@ module Gigya
         {
           'APIKey'            => @api_key,
           'enabledProviders'  => @enabled_providers,
-          'disabledProviders' => @disabled_providers,
-        }
+          'disabledProviders' => @disabled_providers
+        }.reject { |k,v| v.nil? }
       end
       
       # Socialize specific JS methods
@@ -30,6 +30,16 @@ module Gigya
       def include_gigya_socialize
         include_gigya_api :socialize
       end
+      
+      protected 
+      
+        def array_to_string(array)
+          if array.is_a? String
+            array
+          elsif array.is_a? Array
+            array.join(',')
+          end
+        end
       
     end
   end
