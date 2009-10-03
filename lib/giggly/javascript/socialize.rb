@@ -23,12 +23,12 @@ module Giggly
       
       # Socialize specific JS methods
       
-      def config_to_js(config_var_name = :gigya_config)
+      def config_to_js(config_var_name = :gigyaConfig)
         to_var(config_var_name, to_config)
       end
       
-      def include_gigya_socialize
-        include_gigya_api :socialize
+      def include_gigya_socialize(js_path = '/javascripts')
+        include_gigya_api(:socialize) + "\n<script type=\"text/javascript\" src=\"#{js_path}/giggly-socialize.js\"></script>"
       end
       
       protected 

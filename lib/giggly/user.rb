@@ -3,7 +3,7 @@ module Giggly
     
     attr_reader :data
     
-    def new(data)
+    def initialize(data)
       @data = data
     end
 
@@ -13,6 +13,11 @@ module Giggly
 
     def [](value) 
       @data[value.to_s]
+    end
+    
+    def method_missing(method, *args)
+      super unless @data[method.to_s]
+      @data[method.to_s]
     end
 
   end
