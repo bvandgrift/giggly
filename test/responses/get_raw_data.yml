@@ -2,12 +2,12 @@
     :method_name: "getRawData"
     :request_type: :post
     :success: >
-        <?xml version="1.0" encoding="utf-8" ?>
-        <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema/1.0.xsd" xmlns="urn:com:gigya:api">
-            <statusCode>200</statusCode>
-            <statusReason>OK</statusReason>
-        </socialize.disconnectResponse>
+        <?xml version="1.0" encoding="utf-8" ?> 
+        <socialize.getRawDataResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema/1.0.xsd" xmlns="urn:com:gigya:api">
+            <statusCode>200</statusCode> 
+            <statusReason>OK</statusReason> 
+            <data>[{"birthday":"May 31, 1972","name":"Bobo"}]</data> 
+        </socialize.getRawDataResponse>
     :failure: >
         <?xml version="1.0" encoding="utf-8" ?>
         <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 

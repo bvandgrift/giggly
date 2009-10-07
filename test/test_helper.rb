@@ -12,7 +12,7 @@ require 'shoulda'
 require 'matchy'
 require 'mocha'
 require 'fakeweb'
-require 'redgreen'
+require 'redgreen' if ENV['TM_FILENAME'].nil?
 
 
 dir = (Pathname(__FILE__).dirname + '../lib').expand_path
@@ -24,5 +24,12 @@ puts "Disabling net connections."
 FakeWeb.allow_net_connect = false
 
 class Test::Unit::TestCase
+  
+  custom_matcher :be_successful do |receiver, matcher, args|
+    args[0] ||= {"statusCode" => "200"}
+    args[0].each { |k,v| return false unless receiver[k] == v }
+    true
+  end
+  
 end
 

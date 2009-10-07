@@ -10,12 +10,6 @@ require 'yaml'
 class FakeSocialize
   
   @@responses ||= {}
-  
-  # this appears to never get called.  might cut.
-  def FakeSocialize.initialize
-    puts "Initializing FakeSocialize."
-    @@responses = reload_responses if @@responses.nil? || @@responses.empty?
-  end
 
   def self.setup_response(method_ref, response_name)
     reload_responses if @@responses.nil? || @@responses.empty?

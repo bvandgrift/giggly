@@ -26,26 +26,26 @@ module Giggly
       # Responsible for raising errors if they are returned from the API.
       # Returns response data from the post request.
       def post(url, params = {})
-        response = self.class.post(url, :query => sign(params, url))
+        response = self.class.post(url, :query => sign('POST', url, params))
         response_key, response_data = response.shift
         raise_errors(response_data)
         response_data
       end
       
-      private
+      def sign(http_method, api_url, params)
+        params.merge! "apiKey" => @api_key, "uid" => @uid
+        params.merge  "sig" => signature(api_url, http_method, params)
+      end
       
-        def sign(params, url)
-          params.merge! "apiKey" => @api_key, "uid" => @uid
-          params.merge  "sig" => signature(url, params)
-        end
-        
-        def signature(api_url, params)
-          timestamp = Time.now.to_i.to_s
-          params.merge!("nonce" => "#{@uid}#{timestamp}", "timestamp" => timestamp) ####
-          base_string = build_base_string('POST', api_url, params)
-          hmacsha1 = HMAC::SHA1.digest(@gigya_secret, base_string)
-          Base64.encode64(hmacsha1).chomp.to_s.gsub(/\n/,'')
-        end
+      def signature(http_method, api_url, params)
+        timestamp = Time.now.to_i.to_s
+        params.merge!("nonce" => "#{@uid}#{timestamp}", "timestamp" => timestamp) ####
+        base_string = build_base_string(http_method, api_url, params)
+        hmacsha1 = HMAC::SHA1.digest(@gigya_secret, base_string)
+        sig = Base64.encode64(hmacsha1).chomp.to_s.gsub(/\n/,'')
+      end
+      
+      private
 
         # what is this supposed to do? or when is it supposed to be used?
         def validate_signature(api_url, params, sig)

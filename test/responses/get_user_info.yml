@@ -2,12 +2,88 @@
     :method_name: "getUserInfo"
     :request_type: :post
     :success: >
-        <?xml version="1.0" encoding="utf-8" ?>
-        <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema/1.0.xsd" xmlns="urn:com:gigya:api">
-            <statusCode>200</statusCode>
-            <statusReason>OK</statusReason>
-        </socialize.disconnectResponse>
+        <?xml version="1.0" encoding="utf-8" ?> 
+            <socialize.getUserInfoResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema" xmlns="urn:com:gigya:api">
+                <statusCode>200</statusCode> 
+                <statusReason>OK</statusReason> 
+                <UID>000000</UID>
+                <UIDSig>0000</UIDSig> 
+                <timestamp>2009-06-21 12:07:09</timestamp> 
+                <isSiteUser>true</isSiteUser> 
+                <isLoggedIn>true</isLoggedIn> 
+                <isConnected>true</isConnected> 
+                <loginProvider>MySpace</loginProvider> 
+                <identities>
+                    <identity>
+                        <provider>MySpace</provider> 
+                        <UID>0000000</UID>
+                        <providerUID>000000</providerUID> 
+                        <isLoginIdentity>true</isLoginIdentity>
+                        <nickname>Bobo</nickname> 
+                        <thumbnailURL>http://c4.ac-images.myspacecdn.com/images02/11/00000.jpg</thumbnailURL> 
+                        <gender>M</gender> 
+                        <age>47</age> 
+                        <birthDay>11</birthDay> 
+                        <birthMonth>8</birthMonth> 
+                        <birthYear>1962</birthYear> 
+                        <country>IL</country> 
+                        <profileURL>http://www.myspace.com/00000000</profileURL> 
+                        <proxiedEmail />                
+                    </identity>
+                    <identity>
+                        <provider>Facebook</provider> 
+                        <UID>00000000</UID> 
+                        <providerUID>000000</providerUID>
+                        <isLoginIdentity>false</isLoginIdentity>
+                        <nickname>Bobi</nickname> 
+                        <photoURL>http://profile.ak.facebook.com/v222/15/34/00.jpg</photoURL> 
+                        <thumbnailURL>http://profile.ak.facebook.com/v222/15/34/q770169391_5172.jpg</thumbnailURL> 
+                        <firstName>Bobi</firstName> 
+                        <lastName>A</lastName> 
+                        <gender>F</gender> 
+                        <age>37</age> 
+                        <birthDay>31</birthDay> 
+                        <birthMonth>5</birthMonth> 
+                        <birthYear>1972</birthYear> 
+                        <profileURL>http://www.facebook.com/profile.php?id=00</profileURL>
+                        <proxiedEmail>apps+00000000@proxymail.facebook.com</proxiedEmail>
+                    </identity>
+                    <identity>
+                        <provider>twitter</provider> 
+                        <UID>0000000</UID> 
+                        <providerUID>000000</providerUID>
+                        <isLoginIdentity>false</isLoginIdentity> 
+                        <nickname>Bobu</nickname> 
+                        <photoURL>http://static.twitter.com/images/default_profile_normal.png</photoURL> 
+                        <firstName>Bobu</firstName> 
+                        <lastName>A</lastName> 
+                        <profileURL>http://twitter.com/shirlyleshed</profileURL> 
+                        <proxiedEmail />
+                    </identity>
+                    <identity>
+                        <provider>Yahoo</provider> 
+                        <UID>000000</UID> 
+                        <providerUID>00000</providerUID> 
+                        <isLoginIdentity>false</isLoginIdentity> 
+                        <nickname>Shirly</nickname> 
+                        <thumbnailURL>http://a323.yahoofs.com/coreid/000.jpg?ciAgMZLB5RbqrC1K</thumbnailURL> 
+                        <gender>F</gender> 
+                        <profileURL>http://profiles.yahoo.com/u/000</profileURL> 
+                        <proxiedEmail /> 
+                    </identity>
+                </identities>
+                <nickname>Bobo</nickname> 
+                <thumbnailURL>http://c4.ac-images.myspacecdn.com/images02/11/0000.jpg</thumbnailURL> 
+                <gender>M</gender> 
+                <age>47</age> 
+                <birthDay>11</birthDay> 
+                <birthMonth>8</birthMonth> 
+                <birthYear>1962</birthYear> 
+                <country>IL</country> 
+                <profileURL>http://www.myspace.com/00000000</profileURL> 
+                <capabilities>Login, Friends, Notifications, Actions, Status</capabilities>
+                <proxiedEmail /> 
+            </socialize.getUserInfoResponse>
     :failure: >
         <?xml version="1.0" encoding="utf-8" ?>
         <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 

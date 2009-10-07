@@ -1,7 +1,6 @@
-require 'forwardable'
 require 'rubygems'
 
-gem 'httparty', '0.4.3'
+gem 'httparty', '0.4.5'
 require 'httparty'
 
 # breaks the gigya web api down into idiomatic ruby for your coding pleasure.

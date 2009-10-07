@@ -19,20 +19,25 @@ module Giggly
       # Params::
       # * +network+ array of networks to disconnect from, if emtpy user will be disconnected from all networks
       # Allowed values for network are facebook, myspace, twitter and yahoo.
-      def disconnect(network = nil)
-        perform_post 'disconnect', :provider => (network.join(',') if network)
+      def disconnect(provider = nil)
+        validate_providers! %w[facebook yahoo myspace twitter], provider
+        perform_post :disconnect, :provider => (provider.join(',') if provider)
       end
       
       # retrieves the friends of the current user
       # Params::
-      # * +enabledProviders+ comma +separated+ list of providers to include.  (ONLY) 
-      # * +disabledProviders+ comma separated list of providers to exclude. (NOT)
-      # * +UIDs+ list of users to retrieve.
-      # * +detailLevel+ 'basic' or 'extended'
+      # * +enabled_providers+ comma +separated+ list of providers to include.  (ONLY) 
+      # * +disabled_providers+ comma separated list of providers to exclude. (NOT)
+      # * +uids+ list of users to retrieve.
+      # * +detail_level+ 'basic' or 'extended'
       # Returns::
       # * +Array+ of +Giggly::User+ objects
-      def friends_info(params = {})
-        response = perform_post(GIGYA_URL + 'getFriendsInfo', params)
+      def friends_info(options = {})
+        validate_providers! %w[facebook yahoo myspace twitter], options[:enabled_providers]
+        params = provider_hash(options)
+        params[:UIDs], params[:detailLevel] = options[:uids], options[:detailLevel]
+        
+        response = perform_post(:getFriendsInfo, params)
         friends = []
         response['friends']['friend'].each do |friend|
           friends << Giggly::Friend.new(friend)
@@ -47,7 +52,8 @@ module Giggly
       # Returns::
       # * +Hash+ of the raw data
       def raw_data(provider, fields)
-        perform_post GIGYA_URL + 'getRawData', {:provider => provider, :fields => fields.join(',')}
+        validate_providers! %w[facebook myspace], provider
+        perform_post :getRawData, {:provider => provider, :fields => fields.join(',')}
       end
       
       # get the connection info for a session with a direct api provider
@@ -60,24 +66,26 @@ module Giggly
       #   * values are PKCS5, PKCS7 or ZEROS PKCS7 will be used as the default
       # See http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getSessionInfo on decrypting
       def session_info(provider, padding_mode = 'PKCS7')
-        # TOOD: possibly decrypt response
-        Giggly::SessionInfo.new perform_post(GIGYA_URL + 'getSessionInfo', {:provider => provider, :paddingMode => padding_mode})
+        validate_providers! %w[facebook yahoo myspace twitter], provider
+        # TODO: possibly decrypt response
+        Giggly::SessionInfo.new perform_post(:getSessionInfo, {:provider => provider, :paddingMode => padding_mode})
       end
       
       # retrieves user information from gigya, including or excluding providers
       # as indicated.  default usage includes all providers.  returns user.
       # Params::
       # * +providers+ an optional hash of arrays the has the keys of 
-      # * +included_providers+ an array of provider strings 
-      # * +excluded_providers+ an array of provider strings 
+      # * +enabled_providers+ an array of provider strings 
+      # * +disabled_providers+ an array of provider strings 
       def user_info(providers = {})
-        Giggly::User.new perform_post(GIGYA_URL + 'getUserInfo', provider_hash(providers))
+        Giggly::User.new perform_post(:getUserInfo, provider_hash(providers))
       end
       
-      # arg, this looks to be more difficult because we have to send a custom xml payload
       # see: http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.publishUserAction
-      def publish_user_action
-        perform_post(GIGYA_URL + 'publishUserAction', params)
+      # for how to create user_action_xml
+      def publish_user_action(user_action_xml, providers = {})
+        validate_providers! %w[facebook yahoo], providers[:enabled_providers]
+        perform_post :publishUserAction, {:userAction => user_action_xml}.merge(provider_hash(providers))
       end
       
       # Sends a notification to a list of friends
@@ -88,31 +96,41 @@ module Giggly
       # this will post to both facebook and twitter
       def send_notification(recipients, subject, body)
         recipients = recipients.class.name == 'Array' ? recipients.join(',') : recipients
-        perform_post GIGYA_URL + 'sendNotification', {:recipients => recipients, :subject => subject, :body => body}
+        perform_post :sendNotification, {:recipients => recipients, :subject => subject, :body => body}
       end
       
       # sets the status of a user for the given providers (or all of them if blank)
       # Params::
       # * +providers+ an optional hash of arrays the has the keys of 
-      # * +included_providers+ an array of provider strings 
-      # * +excluded_providers+ an array of provider strings
+      # * +enabled_providers+ an array of provider strings 
+      # * +disabled_providers+ an array of provider strings
       def status=(status, providers = {})
-        perform_post GIGYA_URL + 'setStatus', {:status => status}.merge(provider_hash(providers))
+        validate_providers! %w[facebook yahoo myspace twitter], providers[:enabled_providers]
+        return perform_post :setStatus, {:status => status}.merge(provider_hash(providers))
       end
       
       protected
       
         def perform_post(action, params = {})
           params.reject! {|k,v| v.nil?}
-          @request.post action.to_s, params
+          @request.post "#{GIGYA_URL}#{action}", params
         end
         
         def provider_hash(providers)
-          params = {
-            :enabledProviders  => (providers[:included_providers].join(',') if providers[:included_providers]),
-            :disabledProviders => (providers[:included_providers].join(',') if providers[:excluded_providers])
-          }
+          { :enabledProviders  => (providers[:enabled_providers].join(',') if providers[:enabled_providers]),
+            :disabledProviders => (providers[:disabled_providers].join(',') if providers[:disabled_providers]) }
         end
+        
+        def validate_providers!(valid_providers, given_providers = nil)
+          return if given_providers.nil?
+          given_providers.each do |provider|
+            raise Giggly::Rest::Socialize::InvalidProvider.new(
+              "#{provider} is not a valid provider, please only use #{valid_providers.join(' ')}"
+            ) unless valid_providers.include? provider
+          end
+        end
+        
+        class InvalidProvider < StandardError; end
       
     end
   end
