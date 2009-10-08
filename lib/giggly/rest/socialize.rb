@@ -4,6 +4,8 @@ module Giggly
       
       GIGYA_URL = "http://socialize.api.gigya.com/socialize."
       
+      attr_accessor :request
+      
       # Create a new socialize object by passing in a <tt>Giggly::Rest::Socialize</tt> object
       # or by passing in a hash that will be used to initialize a new <tt>Giggly::Rest::Socialize</tt>.
       # See the rdoc for Request to find details for a new connection hash.
