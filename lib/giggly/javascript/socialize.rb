@@ -27,8 +27,8 @@ module Giggly
         to_var(config_var_name, to_config)
       end
       
-      def include_gigya_socialize(js_path = '/javascripts')
-        include_gigya_api(:socialize) + "\n<script type=\"text/javascript\" src=\"#{js_path}/giggly-socialize.js\"></script>"
+      def include_gigya_socialize(js_path = '/javascripts', min = true)
+        include_gigya_api(:socialize) + "\n<script type=\"text/javascript\" src=\"#{js_path}/giggly-socialize#{'-min' if min}.js\"></script>"
       end
       
       protected 

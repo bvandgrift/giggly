@@ -10,10 +10,10 @@
         </socialize.setStatusResponse>
     :failure: >
         <?xml version="1.0" encoding="utf-8" ?>
-        <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        <socialize.setStatusResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
         xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema/1.0.xsd" xmlns="urn:com:gigya:api">
             <statusCode>401</statusCode>
             <statusReason>OK</statusReason>
             <errorCode>123456</errorCode>
             <description>FAIL</description>
-        </socialize.disconnectResponse>
+        </socialize.setStatusResponse>

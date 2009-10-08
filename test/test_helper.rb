@@ -27,8 +27,7 @@ class Test::Unit::TestCase
   
   custom_matcher :be_successful do |receiver, matcher, args|
     args[0] ||= {"statusCode" => "200"}
-    args[0].each { |k,v| return false unless receiver[k] == v }
-    true
+    !!args[0].each { |k,v| break false unless receiver[k] == v }
   end
   
 end

@@ -95,18 +95,29 @@ module Giggly
       # * +body+ the body of the notification, do not use html, Gigya will autolink urls
       # this will post to both facebook and twitter
       def send_notification(recipients, subject, body)
-        recipients = recipients.class.name == 'Array' ? recipients.join(',') : recipients
-        perform_post :sendNotification, {:recipients => recipients, :subject => subject, :body => body}
+        recipients = recipients.is_a?(Array) ? recipients.join(',') : recipients
+        perform_post :sendNotification, :recipients => recipients, :subject => subject, :body => body
       end
       
       # sets the status of a user for the given providers (or all of them if blank)
       # Params::
+      # * +status+ the status to set for the user
       # * +providers+ an optional hash of arrays the has the keys of 
       # * +enabled_providers+ an array of provider strings 
       # * +disabled_providers+ an array of provider strings
-      def status=(status, providers = {})
+      def set_status(status, providers = {})
         validate_providers! %w[facebook yahoo myspace twitter], providers[:enabled_providers]
-        return perform_post :setStatus, {:status => status}.merge(provider_hash(providers))
+        perform_post :setStatus, {:status => status}.merge(provider_hash(providers))
+      end
+      
+      # sets the status of a user for all providers
+      # Params::
+      # * +status+ the status to set for the user
+      # This method will return the status if it is successful, and raise an error on failure
+      # Use set status if you want to return the response object
+      # Its just in here because we think it looks cool and its convenient
+      def status=(status)
+        set_status status
       end
       
       protected
