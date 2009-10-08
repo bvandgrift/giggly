@@ -30,5 +30,15 @@ class Test::Unit::TestCase
     !!args[0].each { |k,v| break false unless receiver[k] == v }
   end
   
+  def setup_giggly_rest
+    @request = Giggly::Rest::Request.new(
+      :api_key => 'TEST_KEY',
+      :secret_key => 'SECRET_KEY',
+      :user_id    => 'GIGYA_USER_ID'
+    )
+    @giggly = Giggly::Rest::Socialize.new(@request)
+    @giggly.request.stubs(:sign).returns({}) # to make fakeweb not be so slow
+  end
+  
+  
 end
-

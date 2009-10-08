@@ -1,17 +1,10 @@
 require 'test_helper'
 
-
-class SocializeTest < Test::Unit::TestCase
+class Giggly::Rest::SocializeTest < Test::Unit::TestCase
   
   context "A Giggly::Rest::Socialize Instance" do
     setup do
-      @request = Giggly::Rest::Request.new(
-        :api_key => 'TEST_KEY',
-        :secret_key => 'SECRET_KEY',
-        :user_id    => 'GIGYA_USER_ID'
-      )
-      @giggly = Giggly::Rest::Socialize.new(@request)
-      @giggly.request.stubs(:sign).returns({}) # to make fakeweb not be so slow
+      setup_giggly_rest
     end
     
     should "disconnect the user" do

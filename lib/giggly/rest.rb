@@ -1,8 +1,7 @@
 require 'digest'
 require 'hmac-sha1'
 require 'base64'
-
-require 'oauth'
+require 'cgi'
 
 module Giggly
   module Rest
