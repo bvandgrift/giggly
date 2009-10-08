@@ -1,4 +1,4 @@
 module Giggly
-  class Friend < User
+  class Friend < Giggly::User
   end
 end

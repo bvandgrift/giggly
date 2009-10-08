@@ -1,5 +1,5 @@
-module Gigya
-  module Javscript
+module Giggly
+  module Javascript
     module Helper
       
       # The Javascript helper should be totally generic to the api that is being used
@@ -10,9 +10,9 @@ module Gigya
       end
       
       def javascript(&block)
-        out = '<script type="text/javascript">'
+        out = '<script type="text/javascript">' + "\n"
         out += yield.to_s
-        out += '</script>'
+        out += "\n" + '</script>'
         out
       end
       
@@ -25,9 +25,9 @@ module Gigya
         if object.is_a? String
           "'#{escape_javascript object}'"
         elsif object.is_a? Array
-          '[' + object.collect{ |o| javascriptify_variable(o) }.join(',') + ']'
+          '[' + object.collect{ |o| javascriptify_variable(o) }.join(', ') + ']'
         elsif object.is_a? Hash
-          '{' + object.to_a.collect{ |o| "#{o[0].to_s} : #{javascriptify_variable(o[1])}" }.join(',') + '}'
+          '{' + object.to_a.collect{ |o| "#{o[0].to_s} : #{javascriptify_object(o[1])}" }.join(', ') + '}'
         elsif object.nil?
           'undefined'
         else

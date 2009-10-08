@@ -2,12 +2,71 @@
     :method_name: "getFriendsInfo"
     :request_type: :post
     :success: >
-        <?xml version="1.0" encoding="utf-8" ?>
-        <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema/1.0.xsd" xmlns="urn:com:gigya:api">
-            <statusCode>200</statusCode>
-            <statusReason>OK</statusReason>
-        </socialize.disconnectResponse>
+        <?xml version="1.0" encoding="utf-8" ?> 
+        <socialize.getFriendsInfoResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema" xmlns="urn:com:gigya:api">
+            <statusCode>200</statusCode> 
+            <statusReason>OK</statusReason> 
+            <friends>
+                <friend>
+                    <UID>00</UID> 
+                    <friendshipSig>00</friendshipSig> 
+                    <timestamp>2009-06-22 14:22:25</timestamp> 
+                    <isSiteUser>false</isSiteUser> 
+                    <identities>
+                        <identity>
+                            <provider>Facebook</provider> 
+                            <UID>00</UID> 
+                            <providerUID>00</providerUID> 
+                            <isLoginIdentity>false</isLoginIdentity> 
+                            <nickname>Baba</nickname> 
+                            <photoURL>http://profile.ak.facebook.com/v229/1427/35/00.jpg</photoURL> 
+                            <thumbnailURL>http://profile.ak.facebook.com/v229/1427/35/00.jpg</thumbnailURL> 
+                            <firstName>Bob</firstName> 
+                            <lastName>Marley</lastName> 
+                            <gender>M</gender> 
+                            <age>36</age> 
+                            <birthDay>26</birthDay> 
+                            <birthMonth>12</birthMonth> 
+                            <birthYear>1973</birthYear> 
+                            <zip /> 
+                            <profileURL>http://www.facebook.com/profile.php?id=00</profileURL> 
+                        </identity>
+                    </identities>
+                    <nickname>Baba</nickname> 
+                    <photoURL>http://profile.ak.facebook.com/v229/1427/35/00.jpg</photoURL> 
+                    <thumbnailURL>http://profile.ak.facebook.com/v229/1427/35/00.jpg</thumbnailURL> 
+                    <firstName>Bob</firstName> 
+                    <lastName>Marley</lastName> 
+                    <age>36</age> 
+                    <birthDay>26</birthDay> 
+                    <birthMonth>12</birthMonth> 
+                    <birthYear>1973</birthYear> 
+                    <gender>M</gender> 
+                    <zip /> 
+                    <profileURL>http://www.facebook.com/profile.php?id=00</profileURL> 
+                </friend>
+                <friend>
+                    <UID>01</UID> 
+                    <friendshipSig>001</friendshipSig> 
+                    <timestamp>2009-06-22 14:22:25</timestamp> 
+                    <isSiteUser>false</isSiteUser> 
+                    <identities>
+                        <identity>
+                            <provider>MySpace</provider> 
+                            <UID>001</UID> 
+                            <providerUID>11</providerUID> 
+                            <isLoginIdentity>false</isLoginIdentity> 
+                            <nickname>Tom</nickname> 
+                            <thumbnailURL>http://b2.ac-images.myspacecdn.com/00000/20/52/00.jpg</thumbnailURL> 
+                            <profileURL>http://www.myspace.com/tom</profileURL> 
+                        </identity>
+                    </identities>
+                    <nickname>Tom</nickname> 
+                    <thumbnailURL>http://b2.ac-images.myspacecdn.com/00000/20/52/00.jpg</thumbnailURL> 
+                    <profileURL>http://www.myspace.com/tom</profileURL> 
+                </friend>
+            </friends>
+        </socialize.getFriendsInfoResponse>
     :failure: >
         <?xml version="1.0" encoding="utf-8" ?>
         <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 

@@ -1,13 +1,18 @@
 :session_info:
-    :method_name: "sessionInfo"
+    :method_name: "getSessionInfo"
     :request_type: :post
     :success: >
-        <?xml version="1.0" encoding="utf-8" ?>
-        <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema/1.0.xsd" xmlns="urn:com:gigya:api">
-            <statusCode>200</statusCode>
-            <statusReason>OK</statusReason>
-        </socialize.disconnectResponse>
+        <?xml version="1.0" encoding="utf-8" ?> 
+        <socialize.getSessionInfoResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:com:gigya:api http://socialize.api.gigya.com/schema/1.0.xsd" xmlns="urn:com:gigya:api">
+            <statusCode>200</statusCode> 
+            <statusReason>OK</statusReason> 
+            <authToken>0000</authToken> 
+            <tokenSecret /> 
+            <tokenExpiration>2009-06-21 17:00:00</tokenExpiration>  
+            <sessionHandle /> 
+            <sessionExpiration /> 
+            <IV>0000</IV> 
+        </socialize.getSessionInfoResponse>
     :failure: >
         <?xml version="1.0" encoding="utf-8" ?>
         <socialize.disconnectResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
