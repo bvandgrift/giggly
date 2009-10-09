@@ -37,7 +37,7 @@ module Giggly
       def friends_info(options = {})
         validate_providers! %w[facebook yahoo myspace twitter], options[:enabled_providers]
         params = provider_hash(options)
-        params[:UIDs], params[:detailLevel] = options[:uids], options[:detailLevel]
+        params[:user_ids], params[:detail_level] = options[:uids], options[:detailLevel]
         
         response = perform_post(:getFriendsInfo, params)
         friends = []
