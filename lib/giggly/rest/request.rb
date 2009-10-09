@@ -5,6 +5,8 @@ module Giggly
       attr_accessor :api_key, :secret_key, :uid
       format :xml
       
+      headers 'Content-Length' => '0'
+      
       # Accepts a hash of connection parameters that will be used to authenticate requests with gigya
       # and specify the user that the request is specific to. The keys for the has are all symbols. 
       # The connection parameter hash requires :api_key, :secret_key, and :uid
@@ -34,7 +36,7 @@ module Giggly
       
       def sign(http_method, api_url, params)
         params.merge! "apiKey" => @api_key, "uid" => @uid
-        params.merge  "sig" => signature(api_url, http_method, params)
+        params.merge  "sig" => signature(http_method, api_url, params)
       end
       
       def signature(http_method, api_url, params)

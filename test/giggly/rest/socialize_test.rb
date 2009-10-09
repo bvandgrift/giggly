@@ -16,7 +16,7 @@ class Giggly::Rest::SocializeTest < Test::Unit::TestCase
     should "get friends info and return array of Giggly::Friend objects" do
       FakeSocialize.setup_response(:friends_info, :success)
       friends = @giggly.friends_info
-      assert friends.size > 0
+      friends.size.should > 0
       friends.each do |friend|
         friend.class.should == Giggly::Friend
       end
@@ -80,8 +80,7 @@ class Giggly::Rest::SocializeTest < Test::Unit::TestCase
     
     should "send notification to users friends" do
       FakeSocialize.setup_response(:send_notification, :success)
-      #response = @giggly.send_notification %w[_gigya_uid1 _gigya_uid2], 'this is a test', 'this is only a test'
-      response = @giggly.send_notification 'foo', 'bar', 'baz'
+      response = @giggly.send_notification %w[_gigya_uid1 _gigya_uid2], 'this is a test', 'this is only a test'
       response.should be_successful
     end
     
