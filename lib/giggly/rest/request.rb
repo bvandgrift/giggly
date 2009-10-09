@@ -71,6 +71,8 @@ module Giggly
               raise Giggly::Rest::Forbidden.new(data)
             when 404
               raise Giggly::Rest::NotFound.new(data)
+            when 411
+              raise Giggly::Rest::LengthRequired.new(data)
             when 413
               raise Giggly::Rest::RequestEntityTooLarge.new(data)
             when 500

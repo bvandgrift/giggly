@@ -22,6 +22,7 @@ module Giggly
     class RequestEntityTooLarge < SocializeError; end
     class InternalServerError < SocializeError; end
     class NotImplemented < SocializeError; end
+    class LengthRequired < SocializeError; end
 
   end
 end
