@@ -15,6 +15,7 @@ begin
     #gem.rubyforge_project = "giggly"
     
     gem.add_dependency('httparty', '0.4.5')
+    gem.add_dependency('ruby-hmac', '0.3.2')
     
     gem.add_development_dependency('thoughtbot-shoulda', '>= 2.10.1')
     gem.add_development_dependency('jnunemaker-matchy', '0.4.0')

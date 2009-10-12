@@ -1,5 +1,4 @@
 require 'digest'
-require 'hmac-sha1'
 require 'base64'
 require 'cgi'
 
