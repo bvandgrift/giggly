@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{wrapper for the gigya rest and javascript apis}
   s.description = %q{breaks the gigya web api down into idiomatic ruby for your coding pleasure.}
 
-  s.rubyforge_project = "giggly_2"
+  s.rubyforge_project = "giggly"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
