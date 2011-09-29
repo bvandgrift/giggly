@@ -54,7 +54,7 @@ module Giggly
       # Returns::
       # * +Hash+ of the raw data
       def raw_data(provider, fields)
-        validate_providers! %w[facebook myspace], provider
+        validate_providers! %w[facebook myspace], [provider]
         perform_post :getRawData, {:provider => provider, :fields => fields.join(',')}
       end
       
@@ -68,7 +68,7 @@ module Giggly
       #   * values are PKCS5, PKCS7 or ZEROS PKCS7 will be used as the default
       # See http://wiki.gigya.com/030_Gigya_Socialize_API_2.0/030_API_reference/REST_API/socialize.getSessionInfo on decrypting
       def session_info(provider, padding_mode = 'PKCS7')
-        validate_providers! %w[facebook yahoo myspace twitter], provider
+        validate_providers! %w[facebook yahoo myspace twitter], [provider]
         # TODO: possibly decrypt response
         Giggly::SessionInfo.new perform_post(:getSessionInfo, {:provider => provider, :paddingMode => padding_mode})
       end
