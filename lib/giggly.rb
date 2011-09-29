@@ -1,8 +1,3 @@
-require 'rubygems'
-
-gem 'ruby-hmac', '0.3.2'
-gem 'httparty', '0.4.5'
-
 require 'httparty'
 require 'hmac-sha1'
 
