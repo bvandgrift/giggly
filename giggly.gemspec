@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency(%q<httparty>, ["~> 0.8.0"])
+  s.add_runtime_dependency(%q<httparty>, ">= 0.8", "< 0.22")
   s.add_runtime_dependency(%q<ruby-hmac>, ["~> 0.4.0"])
   s.add_development_dependency(%q<thoughtbot-shoulda>, ["~> 2.11.1"])
   s.add_development_dependency(%q<jnunemaker-matchy>, ["~> 0.4.0"])
